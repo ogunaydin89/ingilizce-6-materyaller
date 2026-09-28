@@ -210,7 +210,8 @@ table.res tr.weak td{background:var(--bad-soft);font-weight:600}
 /* ============================================================
    CONTENT. Each lesson = 40 min, split into steps.
    Step types: frames, cards, match, mcq, sort, guess, builder, menu.
-   In mcq, the FIRST option is the correct one (options are shuffled on screen).
+   In mcq, the FIRST option is the correct one (options are shuffled on screen),
+   unless the question has a:<index> — then the options keep their order (the revision quiz, to match the paper copy).
    ============================================================ */
 
 const PLACES = [
@@ -430,18 +431,18 @@ const LESSONS = [
       ["When?",["next summer.","next weekend.","tomorrow.","after school."]]
     ]},
   { type:"mcq", title:"Revision quiz (10 questions)", min:10, mode:"quiz",
-    tip:"Diagnostic, not graded. Pupils write 1–10 and A / B / C on paper. Show each question, give 30 seconds, then “Show answer” and ask “Hands up if you got it right” – type the number. The last screen shows the weakest themes → plan extra support before Theme 1.",
+    tip:"Diagnostic, not graded. Hand out the printed quiz sheet (same questions and letters) or pupils write 1–10 and A / B / C on paper. Show each question, give 30 seconds, then “Show answer” and ask “Hands up if you got it right” – type the number. The last screen shows the weakest themes → plan extra support before Theme 1.",
     qs:[
-      {q:"There ___ two museums in the city.", o:["are","is","am"], tag:"Theme 5 · Neighbourhood & City"},
-      {q:"A plane is ___ than a bus.", o:["faster","more fast","fastest"], tag:"Theme 5 · Neighbourhood & City"},
-      {q:"This is ___ bike. (Ali)", o:["Ali’s","Alis","Ali"], tag:"Theme 5 · Neighbourhood & City"},
-      {q:"How ___ sugar do you want?", o:["much","many","a"], tag:"Theme 6 · Life in the World"},
-      {q:"She ___ got two cats.", o:["has","have","is"], tag:"Theme 6 · Life in the World"},
-      {q:"(at a restaurant) ___ I have a glass of water, please?", o:["Can","Am","Do"], tag:"Theme 6 · Life in the World"},
-      {q:"A cheetah ___ run very fast.", o:["can","can’t","is"], tag:"Theme 7 · Life in Nature"},
-      {q:"You ___ throw rubbish in the forest.", o:["mustn’t","must","can"], tag:"Theme 7 · Life in Nature"},
-      {q:"Jupiter is the ___ planet in our Solar System.", o:["biggest","bigger","most big"], tag:"Theme 8 · Universe & Future"},
-      {q:"Next summer I ___ going to visit my grandma.", o:["am","is","are"], tag:"Theme 8 · Universe & Future"}
+      {q:"There ___ two museums in the city.", o:["is","are","am"], a:1, tag:"Theme 5 · Neighbourhood & City"},
+      {q:"A plane is ___ than a bus.", o:["more fast","fastest","faster"], a:2, tag:"Theme 5 · Neighbourhood & City"},
+      {q:"This is ___ bike. (Ali)", o:["Ali’s","Alis","Ali"], a:0, tag:"Theme 5 · Neighbourhood & City"},
+      {q:"How ___ sugar do you want?", o:["many","a","much"], a:2, tag:"Theme 6 · Life in the World"},
+      {q:"She ___ got two cats.", o:["have","has","is"], a:1, tag:"Theme 6 · Life in the World"},
+      {q:"(at a restaurant) ___ I have a glass of water, please?", o:["Can","Am","Do"], a:0, tag:"Theme 6 · Life in the World"},
+      {q:"A cheetah ___ run very fast.", o:["is","can’t","can"], a:2, tag:"Theme 7 · Life in Nature"},
+      {q:"You ___ throw rubbish in the forest.", o:["mustn’t","must","can"], a:0, tag:"Theme 7 · Life in Nature"},
+      {q:"Jupiter is the ___ planet in our Solar System.", o:["bigger","biggest","most big"], a:1, tag:"Theme 8 · Universe & Future"},
+      {q:"Next summer I ___ going to visit my grandma.", o:["is","are","am"], a:2, tag:"Theme 8 · Universe & Future"}
     ]}
   ]}
 ];
@@ -605,7 +606,7 @@ const RENDER = {
 
   mcq(S, box) {
     const quiz = S.mode === "quiz";
-    const qs = S.qs.map((q, i) => ({...q, opts: (q.fixed ? x => x : x => shuffle(x, rng(S.title + i)))(q.o.map((t, k) => ({t, ok: k === 0})))}));
+    const qs = S.qs.map((q, i) => ({...q, opts: (q.fixed || q.a != null ? x => x : x => shuffle(x, rng(S.title + i)))(q.o.map((t, k) => ({t, ok: k === (q.a ?? 0)})))}));
     const res = qs.map(() => null);      // practice: true/false · quiz: number of pupils right
     let i = 0, classSize = 20;
     if (S.scene) {

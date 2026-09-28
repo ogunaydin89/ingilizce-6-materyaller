@@ -7,7 +7,11 @@ python annual_plan.py                 # school copy (signed) -> Desktop
 python annual_plan.py --public        # public copy -> repo folder
 python lesson_plan_week03.py          # same for the week-3 lesson plan
 python lesson_plan_week03.py --public
+python worksheets_week03.py           # week-3 worksheets: worksheets/*.html -> PDF in the week folder
 ```
+
+- **Worksheets:** written as HTML in `worksheets/` (shared style: `worksheet.css`, A4, black-and-white friendly). `worksheets_week03.py` prints them to PDF with Chromium (`pip install playwright`, then `playwright install chromium`) and checks the page count. Without Python: open the .html in Chrome/Edge, Ctrl+P, A4, “Background graphics” on, Save as PDF.
+- The revision quiz uses the same questions and A/B/C letters as the board quiz (`…Interactive-Lessons.html`, Lesson 3): change both together.
 
 - **School copy:** signature block (teacher / approval). The names come from `local_signatures.json`, which is in `.gitignore` and never uploaded. Keys: `teacher_name`, `teacher_title`, `approval_word`, `principal_name`, `principal_title`.
 - **Public copy:** no signatures; a credit line and a page footer: "Prepared by Ogün Aydın · CC BY 4.0 …" (`common.py`, `CREDIT`).
