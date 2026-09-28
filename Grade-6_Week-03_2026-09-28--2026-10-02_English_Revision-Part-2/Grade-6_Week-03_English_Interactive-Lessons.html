@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 6 English · Week 3</title>
+<!-- Year 6 English, week 3 (28.09–02.10.2026): interactive board material for the 3 revision lessons (Year 5 Themes 5–8).
+     One self-contained file: works offline, no downloads, no images (emoji only). Open it in the board's browser. -->
+<style>
+:root{
+  --bg:#f6f7fb; --panel:#fff; --ink:#1d2433; --muted:#5b6478; --line:#dde1ea;
+  --accent:#2f5bd3; --accent-ink:#fff; --accent-soft:#e7eefc;
+  --ok:#1f8a4c; --ok-soft:#e3f5ea; --bad:#c23b3b; --bad-soft:#fbe7e7; --warn:#b26b00; --warn-soft:#fff3dc;
+  --l1:#2f5bd3; --l2:#c2561f; --l3:#1f8a4c;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:20px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Noto Sans",sans-serif;min-height:100vh;display:flex;flex-direction:column}
+button{font:inherit;color:inherit;cursor:pointer;border:2px solid var(--line);background:var(--panel);border-radius:12px;padding:.45em .9em;min-height:52px;touch-action:manipulation}
+button:hover{border-color:var(--accent)}
+button:disabled{cursor:default;opacity:.55}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+button.small{min-height:40px;padding:.2em .7em;font-size:.85em}
+input[type=number]{font:inherit;width:5em;padding:.3em .5em;border:2px solid var(--line);border-radius:10px}
+.emoji{font-family:"Noto Color Emoji","Segoe UI Emoji","Apple Color Emoji",sans-serif;line-height:1}
+
+/* top bar */
+header{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:.6rem 1rem;background:var(--panel);border-bottom:2px solid var(--line);position:sticky;top:0;z-index:5}
+header .brand{font-weight:700;margin-right:auto;cursor:pointer}
+header .brand small{font-weight:400;color:var(--muted)}
+header nav{display:flex;gap:.4rem;flex-wrap:wrap}
+header nav button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.toggle.on{background:var(--warn-soft);border-color:var(--warn)}
+
+main{flex:1;width:100%;max-width:1400px;margin:0 auto;padding:1rem}
+footer{padding:.6rem 1rem;text-align:center;color:var(--muted);font-size:.7rem}
+footer a{color:inherit}
+
+/* hub */
+.hub h1{font-size:2rem;margin:.2rem 0}
+.hub .lead{color:var(--muted);margin:.2rem 0 1.2rem}
+.cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.lcard{background:var(--panel);border:2px solid var(--line);border-top:8px solid var(--c);border-radius:var(--r);padding:1rem 1.2rem;text-align:left;display:flex;flex-direction:column;gap:.4rem}
+.lcard:hover{border-color:var(--c)}
+.lcard h2{margin:0;font-size:1.4rem}
+.lcard .day{color:var(--muted);font-size:.85rem}
+.lcard ol{margin:.3rem 0 0;padding-left:1.2em;font-size:.85rem}
+.howto{margin-top:1.2rem;background:var(--panel);border:2px dashed var(--line);border-radius:var(--r);padding:.8rem 1.2rem;font-size:.85rem}
+.howto ul{margin:.3rem 0;padding-left:1.2em}
+
+/* lesson layout */
+.lesson{display:grid;grid-template-columns:260px 1fr;gap:1rem;align-items:start}
+.steps{background:var(--panel);border:2px solid var(--line);border-radius:var(--r);padding:.5rem;position:sticky;top:5.2rem}
+.steps h3{margin:.3rem .5rem .5rem;font-size:1rem}
+.steps button{display:flex;width:100%;text-align:left;border:0;border-radius:10px;min-height:44px;font-size:.85rem;gap:.5rem;align-items:center}
+.steps button .m{margin-left:auto;color:var(--muted);font-size:.8em;white-space:nowrap}
+.steps button.on{background:var(--accent-soft);font-weight:700}
+.steps .total{font-size:.75rem;color:var(--muted);padding:.4rem .6rem}
+.stage{background:var(--panel);border:2px solid var(--line);border-radius:var(--r);padding:1rem 1.4rem;min-height:70vh;display:flex;flex-direction:column}
+.stagehead{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:.6rem;margin-bottom:1rem}
+.stagehead h2{margin:0;font-size:1.6rem}
+.stagehead .kicker{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.timer{margin-left:auto;display:flex;align-items:center;gap:.4rem}
+.timer .t{font-variant-numeric:tabular-nums;font-size:1.5rem;font-weight:700;min-width:4.2ch;text-align:right}
+.timer .t.over{color:var(--bad)}
+.body{flex:1}
+.stagefoot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding-top:.8rem;border-top:2px solid var(--line)}
+details.tip{background:var(--warn-soft);border-radius:10px;padding:.4rem .8rem;margin-bottom:1rem;font-size:.85rem}
+details.tip summary{cursor:pointer;font-weight:600}
+.tr{display:none;color:var(--warn);font-size:.8em;font-style:italic}
+body.show-tr .tr{display:block}
+body.show-tr span.tr{display:inline}
+
+/* content blocks */
+.intro{margin-bottom:1rem}
+.frames{display:flex;flex-direction:column;gap:.7rem}
+.frame{font-size:1.7rem;background:var(--accent-soft);border-radius:var(--r);padding:.5rem 1rem}
+.frame .blank{display:inline-block;min-width:5ch;border-bottom:3px solid var(--accent);color:var(--accent)}
+.picker{margin-top:1.2rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.picker .num{font-size:3rem;font-weight:800;min-width:2.5ch;text-align:center;color:var(--accent)}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted)}
+.big{font-size:1.4em}
+.tools{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.box{border:2px solid var(--line);border-radius:var(--r);padding:.8rem 1rem}
+.box h3{margin:0 0 .3rem}
+.box ul{margin:.2rem 0;padding-left:1.1em}
+.rule{background:var(--accent-soft);border-radius:var(--r);padding:.6rem 1rem;font-size:.95rem}
+.rule table{border-collapse:collapse}
+.rule td{padding:.1rem .8rem .1rem 0}
+.rule b{color:var(--accent)}
+
+/* flashcards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.7rem}
+.fc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;min-height:150px;padding:.5rem}
+.fc .emoji{font-size:3.4rem}
+.fc .w{font-weight:700;font-size:1.05rem;text-align:center}
+.fc.hidden .w{visibility:hidden}
+.fc.said{border-color:var(--ok);background:var(--ok-soft)}
+
+/* match */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.match .col{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;align-content:start}
+.match button{min-height:84px}
+.match .emoji{font-size:2.6rem}
+button.sel{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 3px var(--accent)}
+button.done{border-color:var(--ok);background:var(--ok-soft);opacity:.7}
+button.wrong,.shake{border-color:var(--bad)!important;background:var(--bad-soft)!important;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* mcq */
+.qnum{color:var(--muted);font-size:.85rem;display:flex;gap:.3rem;align-items:center;flex-wrap:wrap}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--line);display:inline-block}
+.dot.ok{background:var(--ok)}.dot.bad{background:var(--bad)}.dot.cur{outline:3px solid var(--accent)}
+.q{font-size:2rem;margin:.6rem 0 .2rem;font-weight:600}
+.q .blank{display:inline-block;min-width:4ch;border-bottom:3px solid var(--accent);text-align:center}
+.q .blank.filled{color:var(--ok);border-color:var(--ok)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin:1rem 0}
+.opts button{font-size:1.5rem;min-height:80px;text-align:left;display:flex;gap:.7rem;align-items:center}
+.opts .L{display:inline-grid;place-items:center;width:1.8em;height:1.8em;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;flex:none;font-size:.8em}
+.opts button.right{border-color:var(--ok);background:var(--ok-soft)}
+.opts button.wrong{animation:none}
+.why{background:var(--ok-soft);border-radius:10px;padding:.5rem .9rem;font-size:1.1rem}
+.why.bad{background:var(--bad-soft)}
+.score{font-size:2.4rem;font-weight:800;margin:1rem 0}
+.scene{display:flex;flex-wrap:wrap;gap:.5rem;background:#eef5ee;border:2px solid #cfe3cf;border-radius:var(--r);padding:.7rem;margin-bottom:.8rem}
+.scene .cell{background:#fff;border-radius:10px;padding:.3rem .5rem;display:flex;flex-direction:column;align-items:center;min-width:88px}
+.scene .emoji{font-size:2.4rem}
+.scene small{font-size:.7rem;color:var(--muted)}
+.scene.fridge{background:#eef3f8;border-color:#cddbea}
+table.res{border-collapse:collapse;font-size:.9rem;margin-top:.6rem}
+table.res th,table.res td{border:1px solid var(--line);padding:.3rem .6rem;text-align:left}
+table.res tr.weak td{background:var(--bad-soft);font-weight:600}
+
+/* sort */
+.pool{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;min-height:70px}
+.pool button{display:flex;align-items:center;gap:.4rem;font-size:1.1rem}
+.pool .emoji{font-size:1.8rem}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem}
+.bin{min-height:190px;display:flex;flex-direction:column;align-items:stretch;text-align:left;padding:.6rem;border-style:dashed;border-width:3px}
+.bin .bh{font-weight:800;font-size:1.2rem;display:flex;gap:.4rem;align-items:center}
+.bin .bh .emoji{font-size:2rem}
+.bin .bs{font-size:.8rem;color:var(--muted)}
+.bin .in{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
+.bin .in span{background:var(--ok-soft);border-radius:8px;padding:.1rem .4rem;font-size:.9rem}
+
+/* guess */
+.guess{display:grid;grid-template-columns:1fr 280px;gap:1.2rem}
+.clues{display:flex;flex-direction:column;gap:.6rem}
+.clue{font-size:1.8rem;background:var(--accent-soft);border-radius:var(--r);padding:.5rem 1rem}
+.clue.hid{background:repeating-linear-gradient(45deg,var(--line),var(--line) 10px,var(--panel) 10px,var(--panel) 20px);color:transparent}
+.mystery{font-size:7rem;text-align:center;line-height:1.1}
+.answer{text-align:center;font-size:2rem;font-weight:800;min-height:1.5em}
+.teams{display:flex;flex-direction:column;gap:.7rem}
+.team{border:2px solid var(--line);border-radius:var(--r);padding:.6rem;text-align:center}
+.team .pts{font-size:3rem;font-weight:800}
+
+/* builder */
+.bcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem}
+.bcol{display:flex;flex-direction:column;gap:.4rem}
+.bcol h4{margin:0;font-size:.8rem;text-transform:uppercase;color:var(--muted)}
+.bcol button{text-align:left;min-height:48px;font-size:1rem}
+.sentence{font-size:2rem;font-weight:700;background:var(--accent-soft);border-radius:var(--r);padding:.6rem 1rem;margin:1rem 0;min-height:2.2em}
+
+/* menu */
+.menu{display:grid;grid-template-columns:1.1fr .9fr;gap:1.2rem}
+.menucard{background:#fffaf0;border:3px double #c9a45c;border-radius:var(--r);padding:.8rem 1rem}
+.menucard h3{text-align:center;margin:.1rem 0;font-family:Georgia,serif;font-size:1.6rem}
+.menucard h4{margin:.6rem 0 .2rem;color:#8a6a2a;text-transform:uppercase;font-size:.8rem;letter-spacing:.08em}
+.mi{display:flex;width:100%;border:0;background:none;min-height:44px;padding:.2rem .4rem;gap:.5rem;align-items:center;font-size:1.05rem;border-radius:8px}
+.mi:hover{background:#f6ecd6}
+.mi .p{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:600}
+.order{display:flex;flex-direction:column;gap:.4rem}
+.say{background:var(--accent-soft);border-radius:10px;padding:.4rem .8rem;font-size:1.1rem}
+.say.waiter{background:var(--warn-soft)}
+.say b{font-size:.75em;text-transform:uppercase;color:var(--muted);margin-right:.4em}
+.total{font-size:1.4rem;font-weight:800}
+.script{font-size:.95rem}
+.script p{margin:.2rem 0}
+.check{border-collapse:collapse;font-size:.85rem}
+.check td,.check th{border:1px solid var(--line);padding:.15rem .4rem;text-align:center}
+.check td button{min-height:34px;min-width:44px;padding:0}
+.check td button.on{background:var(--ok-soft);border-color:var(--ok)}
+
+@media (max-width:900px){
+  body{font-size:17px}
+  .lesson{grid-template-columns:1fr}
+  .steps{position:static}
+  .twocol,.menu,.guess,.match{grid-template-columns:1fr}
+  .q{font-size:1.5rem}.frame,.clue,.sentence{font-size:1.3rem}
+}
+@media print{header,.steps,.stagefoot,.timer{display:none}.lesson{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand" id="brand">Year 6 English · Week 3 <small>Revision Part 2 · 28 Sep – 2 Oct 2026</small></div>
+  <nav id="nav"></nav>
+  <button class="toggle small" id="trBtn" title="Show Turkish hints">TR hints</button>
+  <button class="small" id="fsBtn" title="Full screen">⛶ Full screen</button>
+</header>
+<main id="app"></main>
+<footer>Prepared by Ogün Aydın · CC BY 4.0: free to use, share and adapt with credit · <a href="https://github.com/ogunaydin89/ingilizce-6-materyaller">github.com/ogunaydin89/ingilizce-6-materyaller</a></footer>
+
+<script>
+"use strict";
+/* ============================================================
+   CONTENT. Each lesson = 40 min, split into steps.
+   Step types: frames, cards, match, mcq, sort, guess, builder, menu.
+   In mcq, the FIRST option is the correct one (options are shuffled on screen),
+   unless the question has a:<index> — then the options keep their order (the revision quiz, to match the paper copy).
+   ============================================================ */
+
+const PLACES = [
+  {e:"⛲", w:"square", tr:"meydan"}, {e:"🏛️", w:"museum", tr:"müze"}, {e:"🏰", w:"castle", tr:"kale"},
+  {e:"🏟️", w:"sports centre", tr:"spor merkezi"}, {e:"🌳", w:"park", tr:"park"}, {e:"🏥", w:"hospital", tr:"hastane"},
+  {e:"📚", w:"library", tr:"kütüphane"}, {e:"🏦", w:"bank", tr:"banka"}, {e:"🏤", w:"post office", tr:"postane"},
+  {e:"🏫", w:"school", tr:"okul"}, {e:"🕌", w:"mosque", tr:"cami"}, {e:"🥖", w:"bakery", tr:"fırın"},
+  {e:"💊", w:"pharmacy", tr:"eczane"}, {e:"🛒", w:"market", tr:"market / pazar"}, {e:"🚌", w:"bus station", tr:"otogar"},
+  {e:"🍽️", w:"restaurant", tr:"restoran"}, {e:"🎬", w:"cinema", tr:"sinema"}, {e:"🏨", w:"hotel", tr:"otel"}
+];
+
+const FOODS = [
+  {e:"🍞", w:"bread", tr:"ekmek"}, {e:"🍲", w:"soup", tr:"çorba"}, {e:"🥗", w:"salad", tr:"salata"},
+  {e:"🫘", w:"beans", tr:"fasulye"}, {e:"🫙", w:"jam", tr:"reçel"}, {e:"🍋", w:"lemon", tr:"limon"},
+  {e:"🧀", w:"cheese", tr:"peynir"}, {e:"🫒", w:"olives", tr:"zeytin"}, {e:"🥚", w:"eggs", tr:"yumurta"},
+  {e:"🍎", w:"apple", tr:"elma"}, {e:"🍌", w:"banana", tr:"muz"}, {e:"🍅", w:"tomato", tr:"domates"},
+  {e:"🥒", w:"cucumber", tr:"salatalık"}, {e:"🥛", w:"milk", tr:"süt"}, {e:"💧", w:"water", tr:"su"},
+  {e:"🍚", w:"rice", tr:"pirinç / pilav"}, {e:"🍯", w:"honey", tr:"bal"}, {e:"🥩", w:"meat", tr:"et"},
+  {e:"🍝", w:"pasta", tr:"makarna"}, {e:"🧃", w:"orange juice", tr:"portakal suyu"}, {e:"🍵", w:"tea", tr:"çay"},
+  {e:"🧈", w:"butter", tr:"tereyağı"}, {e:"🥕", w:"carrot", tr:"havuç"}, {e:"🥔", w:"potato", tr:"patates"}
+];
+
+const LESSONS = [
+/* ---------------- LESSON 1 ---------------- */
+{ id:"l1", color:"var(--l1)", title:"Lesson 1", sub:"Neighbourhood & City", day:"Thursday 01.10 · 6/A 7th lesson · 6/B 5th lesson",
+  steps:[
+  { type:"frames", title:"Warm-up: Hello chain", min:5,
+    tip:"You are a new teacher: model it first. Then the chain: each pupil says the frames and points to the next pupil. Use the number picker with register numbers if the chain gets stuck.",
+    lines:["Hello! My name is <span class='blank'>&nbsp;</span>.", "I live in <span class='blank'>&nbsp;</span>.", "I am <span class='blank'>&nbsp;</span> years old.", "Nice to meet you!"],
+    trs:["Merhaba! Benim adım …", "… yaşıyorum.", "… yaşındayım.", "Tanıştığıma memnun oldum!"],
+    picker:30 },
+  { type:"cards", title:"Places in the town", min:5, items:PLACES,
+    tip:"Point, say the word, pupils repeat twice (pronunciation). Then press “Hide words”: point to a card, the class says the word, tap to check." },
+  { type:"match", title:"Match the places", min:5, items:PLACES, per:8,
+    tip:"Pupils come to the board in turns: tap a picture, then its word. “New round” gives 8 different places." },
+  { type:"mcq", title:"There is / There are", min:7, mode:"practice",
+    tip:"First ask orally: “What is there in this town?” Then do the questions. Singular → there is, plural → there are.",
+    intro:"<div class='rule'><b>There is</b> a castle. (1) · <b>There are</b> two parks. (2+) · <b>Is there</b> a museum? — No, there <b>isn’t</b>.</div>",
+    scene:{title:"Our town", cells:[["🏰","castle"],["🌳","park"],["🌳","park"],["🏫","school"],["🏥","hospital"],["🕌","mosque"],["🥖","bakery"],["🥖","bakery"],["💊","pharmacy"],["🚌","bus station"],["🏦","bank"]]},
+    qs:[
+      {q:"Is there a castle in the town?", o:["Yes, there is.","No, there isn’t.","Yes, there are."]},
+      {q:"Is there a museum in the town?", o:["No, there isn’t.","Yes, there is.","No, there aren’t."]},
+      {q:"How many parks are there?", o:["There are two parks.","There is two parks.","There are three parks."]},
+      {q:"There ___ a hospital in the town.", o:["is","are","am"]},
+      {q:"There ___ two bakeries.", o:["are","is","be"]},
+      {q:"Is there a cinema?", o:["No, there isn’t.","Yes, there is.","Yes, there are."]},
+      {q:"___ there any bakeries? — Yes, there are.", o:["Are","Is","Am"]},
+      {q:"There ___ a mosque and a school.", o:["is","are","am"], why:"Before “a mosque …” we say “There is”."}
+    ]},
+  { type:"mcq", title:"Adana or Saimbeyli? (comparatives)", min:10, mode:"practice",
+    tip:"Read the two cards together. Ask: “Which is bigger? Which is quieter?” Then the questions. Pupils read the full sentence aloud after each answer.",
+    intro:`<div class="twocol">
+      <div class="box"><h3><span class="emoji">🏙️</span> Adana</h3><ul><li>a <b>big</b> city</li><li>about 2 million people</li><li>very <b>hot</b> in summer</li><li><b>crowded</b> and <b>noisy</b></li><li>on flat land (low)</li></ul></div>
+      <div class="box"><h3><span class="emoji">🏔️</span> Saimbeyli</h3><ul><li>a <b>small</b> town in the Taurus Mountains</li><li>about 15 thousand people</li><li><b>cool</b> in summer, <b>cold</b> and snowy in winter</li><li><b>quiet</b> and <b>green</b></li><li><b>high</b> in the mountains</li></ul></div></div>
+      <div class="rule" style="margin-top:.8rem"><table>
+      <tr><td>small → <b>smaller</b></td><td>big → <b>bigger</b></td><td>hot → <b>hotter</b></td></tr>
+      <tr><td>noisy → <b>noisier</b></td><td>crowded → <b>more crowded</b></td><td>good → <b>better</b> · bad → <b>worse</b></td></tr></table>
+      A is ___er <b>than</b> B.</div>`,
+    qs:[
+      {q:"Adana is ___ than Saimbeyli. (big)", o:["bigger","biger","more big"]},
+      {q:"Saimbeyli is ___ than Adana. (small)", o:["smaller","more small","smallest"]},
+      {q:"In summer, Adana is ___ than Saimbeyli. (hot)", o:["hotter","hoter","more hot"]},
+      {q:"In winter, Saimbeyli is ___ than Adana. (cold)", o:["colder","more cold","coldder"]},
+      {q:"Saimbeyli is ___ than Adana. (quiet)", o:["quieter","more quiet","quietter"]},
+      {q:"Adana is ___ than Saimbeyli. (crowded)", o:["more crowded","crowdeder","crowdedder"]},
+      {q:"Adana is ___ than Saimbeyli. (noisy)", o:["noisier","noisyer","more noisy"]},
+      {q:"Saimbeyli is ___ than Adana. (high)", o:["higher","more high","highter"]},
+      {q:"For me, my village is ___ than a big city! (good)", o:["better","gooder","more good"]},
+      {q:"Which sentence is TRUE?", o:["Adana is hotter than Saimbeyli in summer.","Saimbeyli is bigger than Adana.","Adana is quieter than Saimbeyli."]}
+    ]},
+  { type:"mcq", title:"Whose is it? (possessive ’s)", min:4, mode:"practice",
+    intro:"<div class='rule'>Elif + <b>’s</b> → <b>Elif’s</b> bike · my father<b>’s</b> car · <b>Whose</b> bike is it? — It’s <b>Elif’s</b>.</div>",
+    qs:[
+      {q:"🚲 (Elif) It’s ___ bike.", o:["Elif’s","Elifs","Elif"]},
+      {q:"🏠 (Ali) This is ___ house.", o:["Ali’s","Alis","Ali is"]},
+      {q:"🐱 (my sister) This is ___ cat.", o:["my sister’s","my sisters","my sister"]},
+      {q:"🏫 (Zeynep) ___ school is next to the park.", o:["Zeynep’s","Zeyneps","Zeynep"]},
+      {q:"🚗 (my father) ___ car is red.", o:["My father’s","My fathers","My father"]},
+      {q:"⚽ Whose ball is it? (Emre)", o:["It’s Emre’s.","It’s Emres.","It’s Emre."]}
+    ]},
+  { type:"frames", title:"Pair work + exit ticket", min:4,
+    tip:"Pairs tell each other about their village/town, then each pupil writes the exit ticket on a small piece of paper and gives it to you at the door. Collect them: they show who needs support.",
+    lines:["In my village / town, there is a <span class='blank'>&nbsp;</span>.", "There are <span class='blank'>&nbsp;</span> <span class='blank'>&nbsp;</span>. (two parks / some shops)", "My village is <span class='blank'>&nbsp;</span>er than <span class='blank'>&nbsp;</span>.", "🎟️ Exit ticket: 1 “there is / there are” sentence + 1 comparative sentence."],
+    trs:["Köyümde / kasabamda bir … var.", "… tane … var.", "Köyüm …’dan daha …", "Çıkış kartı: 1 “there is/are” cümlesi + 1 karşılaştırma cümlesi."] }
+  ]},
+
+/* ---------------- LESSON 2 ---------------- */
+{ id:"l2", color:"var(--l2)", title:"Lesson 2", sub:"Life in the World (food)", day:"Friday 02.10 · 6/A 1st lesson · 6/B 4th lesson",
+  steps:[
+  { type:"frames", title:"Warm-up: What’s for breakfast?", min:3,
+    tip:"Ask 4–5 pupils. Accept one-word answers, then recast them as full sentences.",
+    intro:"<div class='scene'><div class='cell'><span class='emoji'>🍞</span></div><div class='cell'><span class='emoji'>🧀</span></div><div class='cell'><span class='emoji'>🫒</span></div><div class='cell'><span class='emoji'>🥚</span></div><div class='cell'><span class='emoji'>🍅</span></div><div class='cell'><span class='emoji'>🥒</span></div><div class='cell'><span class='emoji'>🍯</span></div><div class='cell'><span class='emoji'>🍵</span></div></div>",
+    lines:["What do you eat for breakfast?", "For breakfast, I eat <span class='blank'>&nbsp;</span> and <span class='blank'>&nbsp;</span>.", "I drink <span class='blank'>&nbsp;</span>.", "I like <span class='blank'>&nbsp;</span>. I don’t like <span class='blank'>&nbsp;</span>."],
+    trs:["Kahvaltıda ne yersin?", "Kahvaltıda … ve … yerim.", "… içerim.", "… severim. … sevmem."], picker:30 },
+  { type:"cards", title:"Food and drinks", min:6, items:FOODS,
+    tip:"Say – repeat. Then “Hide words” and play “Quick! What’s this?” Tap a card when it’s said correctly (it turns green)." },
+  { type:"sort", title:"Countable or uncountable?", min:6,
+    tip:"Ask: “Can we say one bread, two breads?” No → uncountable. Pupils come up: tap a food, then a basket.",
+    bins:[{id:"c",e:"🔢",label:"Countable",sub:"one egg, two eggs",tr:"sayılabilen"},{id:"u",e:"🫗",label:"Uncountable",sub:"some milk, some bread",tr:"sayılamayan"}],
+    items:[["🥚","egg","c"],["🍎","apple","c"],["🍌","banana","c"],["🍅","tomato","c"],["🍋","lemon","c"],["🫒","olive","c"],["🥕","carrot","c"],["🥔","potato","c"],["🥒","cucumber","c"],["🍒","cherry","c"],
+           ["🍞","bread","u"],["🥛","milk","u"],["💧","water","u"],["🧀","cheese","u"],["🍯","honey","u"],["🍚","rice","u"],["🥩","meat","u"],["🧈","butter","u"],["🍵","tea","u"],["🫙","jam","u"],["🍲","soup","u"]] },
+  { type:"mcq", title:"a, an or some?", min:3, mode:"practice",
+    intro:"<div class='rule'><b>a</b> banana · <b>an</b> apple, <b>an</b> egg (a, e, i, o, u) · <b>some</b> milk, <b>some</b> eggs</div>",
+    qs:[
+      {q:"There is ___ apple on the table.", o:["an","a","some"]},
+      {q:"There is ___ banana in my bag.", o:["a","an","some"]},
+      {q:"There is ___ milk in the glass.", o:["some","a","an"]},
+      {q:"There are ___ eggs in the fridge.", o:["some","a","an"]},
+      {q:"Can I have ___ bread, please?", o:["some","a","an"]},
+      {q:"I eat ___ egg every morning.", o:["an","a","some"]}
+    ]},
+  { type:"mcq", title:"What’s in the fridge?", min:3, mode:"practice",
+    tip:"Count together first: “How many eggs are there? One, two, three…”",
+    scene:{title:"The fridge", cls:"fridge", cells:[["🥚",""],["🥚",""],["🥚",""],["🥚",""],["🥚",""],["🥚",""],["🍎",""],["🍎",""],["🍎",""],["🍋",""],["🍋",""],["🥕",""],["🥕",""],["🥕",""],["🥕",""],["🥛","milk"],["🧀","cheese"]]},
+    qs:[
+      {q:"How many eggs are there?", o:["There are six eggs.","There are four eggs.","There is six eggs."]},
+      {q:"How many apples are there?", o:["There are three apples.","There are two apples.","There are five apples."]},
+      {q:"Is there any milk?", o:["Yes, there is some milk.","No, there isn’t.","Yes, there are."]},
+      {q:"Are there any tomatoes?", o:["No, there aren’t.","Yes, there are.","Yes, there is."]},
+      {q:"How many lemons are there?", o:["There are two lemons.","There is a lemon.","There are three lemons."]},
+      {q:"Is there any cheese?", o:["Yes, there is.","No, there isn’t.","Yes, there are."]}
+    ]},
+  { type:"mcq", title:"How much or how many?", min:4, mode:"practice",
+    intro:"<div class='rule'>Countable → How <b>many</b> eggs? · Uncountable → How <b>much</b> milk?</div>",
+    qs:[
+      {q:"How ___ eggs are there?", o:["many","much"], fixed:true},
+      {q:"How ___ milk is there?", o:["much","many"], fixed:true},
+      {q:"How ___ bread do you want?", o:["much","many"], fixed:true},
+      {q:"How ___ apples have you got?", o:["many","much"], fixed:true},
+      {q:"How ___ water do you drink every day?", o:["much","many"], fixed:true},
+      {q:"How ___ tomatoes do we need?", o:["many","much"], fixed:true},
+      {q:"How ___ cheese is there in the fridge?", o:["much","many"], fixed:true},
+      {q:"How ___ olives are on the plate?", o:["many","much"], fixed:true}
+    ]},
+  { type:"mcq", title:"have got / has got", min:5, mode:"practice",
+    intro:"<div class='rule'>I / you / we / they <b>have got</b> · he / she / it <b>has got</b> · <b>Have</b> you got…? — Yes, I <b>have</b>. / No, I <b>haven’t</b>.</div>",
+    qs:[
+      {q:"I ___ got a brother.", o:["have","has","am"]},
+      {q:"She ___ got long hair.", o:["has","have","is"]},
+      {q:"We ___ got a big garden.", o:["have","has","are"]},
+      {q:"My father ___ got a red car.", o:["has","have","is"]},
+      {q:"___ you got a pet?", o:["Have","Has","Are"]},
+      {q:"___ he got a bike?", o:["Has","Have","Is"]},
+      {q:"They haven’t ___ any bread.", o:["got","get","have"]},
+      {q:"Have you got any lemons? — Yes, I ___.", o:["have","has","got"]},
+      {q:"Has she got a sister? — No, she ___.", o:["hasn’t","haven’t","isn’t"]}
+    ]},
+  { type:"menu", title:"At the restaurant (role-play)", min:10,
+    tip:"1) Read the script with a volunteer (you are the waiter). 2) Pairs practise (2 min). 3) 3–4 pairs act it at the board, tapping the menu. Tick the checklist while they speak. Everyone must use “Can I…?”.",
+    name:"Taurus Café",
+    sections:[
+      ["Soups & salads",[["🍲","lentil soup",90,"a bowl of lentil soup"],["🍅","tomato soup",90,"a bowl of tomato soup"],["🥗","salad",110,"a salad"]]],
+      ["Main dishes",[["🫘","beans with rice",180,"beans with rice"],["🍗","chicken with rice",220,"chicken with rice"],["🍝","pasta",160,"pasta"],["🍖","meatballs (köfte)",250,"meatballs"],["🍕","pizza",230,"a pizza"]]],
+      ["Desserts",[["🍮","rice pudding",100,"a rice pudding"],["🍯","baklava",150,"some baklava"],["🍓","fruit salad",90,"a fruit salad"]]],
+      ["Drinks",[["💧","water",20,"a bottle of water"],["🥛","ayran",30,"a glass of ayran"],["🧃","orange juice",60,"a glass of orange juice"],["🍋","lemonade",50,"a glass of lemonade"],["🍵","tea",25,"a cup of tea"]]]
+    ], pairs:15 }
+  ]},
+
+/* ---------------- LESSON 3 ---------------- */
+{ id:"l3", color:"var(--l3)", title:"Lesson 3", sub:"Life in Nature · Universe & Future", day:"Friday 02.10 · 6/A 2nd lesson · 6/B 5th lesson",
+  steps:[
+  { type:"guess", title:"Guess the animal!", min:8,
+    tip:"Two teams. Show one clue at a time. A team can guess after any clue: correct after clue 1 = 3 points, clue 2 = 2 points, clue 3 = 1 point. Guesses must be a question: “Is it a camel?”",
+    animals:[
+      ["🐧","penguin",["It lives in Antarctica.","It can swim very well.","It can’t fly."]],
+      ["🐫","camel",["It lives in the desert.","It can walk for days without water.","It has got humps on its back."]],
+      ["🦘","kangaroo",["It lives in Australia.","It can jump very high.","It has got a pocket for its baby."]],
+      ["🐘","elephant",["It lives in Africa and Asia.","It is very big and it can’t jump.","It has got a very long nose."]],
+      ["🐒","monkey",["It lives in the rainforest.","It can climb trees very well.","It likes bananas."]],
+      ["🦅","eagle",["It lives in the mountains.","It can fly very high.","It has got very good eyes."]],
+      ["🐬","dolphin",["It lives in the sea.","It can swim fast and jump.","It is very clever and friendly."]],
+      ["🦉","owl",["It lives in the forest.","It can see at night.","It sleeps in the day."]],
+      ["🐊","crocodile",["It lives in rivers.","It can swim, and it can walk.","It has got big teeth."]],
+      ["🦒","giraffe",["It lives in Africa.","It can eat leaves from tall trees.","It has got a very long neck."]],
+      ["🐍","snake",["It lives in many places.","It can’t walk.","It hasn’t got any legs."]]
+    ]},
+  { type:"sort", title:"Where do they live?", min:5,
+    tip:"Model: “Where do whales live? — They live in the sea.” Each pupil who sorts an animal says the full sentence.",
+    intro:"<div class='rule'>Where do <b>camels</b> live? — They live in the <b>desert</b>.</div>",
+    bins:[{id:"s",e:"🌊",label:"the sea",tr:"deniz"},{id:"d",e:"🏜️",label:"the desert",tr:"çöl"},{id:"f",e:"🌲",label:"the forest",tr:"orman"},{id:"i",e:"🧊",label:"the ice (polar)",tr:"kutup"}],
+    items:[["🐋","whale","s"],["🐬","dolphin","s"],["🦈","shark","s"],["🐙","octopus","s"],["🐫","camel","d"],["🦂","scorpion","d"],["🦎","lizard","d"],["🐻","bear","f"],["🦉","owl","f"],["🦌","deer","f"],["🐿️","squirrel","f"],["🦊","fox","f"],["🐧","penguin","i"],["🦭","seal","i"],["🐻‍❄️","polar bear","i"]] },
+  { type:"mcq", title:"True or false? (superlatives)", min:7, mode:"practice",
+    tip:"Pupils stand up for TRUE, sit down for FALSE, then tap. For false ones, the class corrects the sentence.",
+    intro:"<div class='rule'>big → the <b>biggest</b> · fast → the <b>fastest</b> · heavy → the <b>heaviest</b> · beautiful → the <b>most beautiful</b> · good → the <b>best</b> · bad → the <b>worst</b></div>",
+    qs:[
+      {q:"🐋 The blue whale is the biggest animal in the world.", o:["True","False"], fixed:true},
+      {q:"🐆 The cheetah is the fastest land animal.", o:["True","False"], fixed:true},
+      {q:"🐭 The mouse is the tallest animal.", o:["False","True"], fixed:true, why:"False → The giraffe is the tallest animal."},
+      {q:"🐘 The elephant is the heaviest land animal.", o:["True","False"], fixed:true},
+      {q:"🐌 The snail is the fastest animal.", o:["False","True"], fixed:true, why:"False → The snail is very slow! The cheetah is the fastest land animal."},
+      {q:"🪶 The ostrich is the biggest bird.", o:["True","False"], fixed:true},
+      {q:"🏔️ Mount Everest is the highest mountain in the world.", o:["True","False"], fixed:true},
+      {q:"🔴 Mars is the hottest planet.", o:["False","True"], fixed:true, why:"False → Venus is the hottest planet."},
+      {q:"🪐 Jupiter is the biggest planet in our Solar System.", o:["True","False"], fixed:true},
+      {q:"☀️ The Sun is the closest star to the Earth.", o:["True","False"], fixed:true}
+    ]},
+  { type:"mcq", title:"Rules in nature: must / mustn’t", min:5, mode:"practice",
+    tip:"Ask: “We are in a national park. What must we do? What mustn’t we do?”",
+    intro:"<div class='rule'>You <b>must</b> = do it! ✅ · You <b>mustn’t</b> = don’t do it! ⛔</div>",
+    qs:[
+      {q:"🔥 You ___ light a fire in the forest.", o:["mustn’t","must"], fixed:true},
+      {q:"🗑️ You ___ take your rubbish home.", o:["must","mustn’t"], fixed:true},
+      {q:"🍪 You ___ feed the wild animals.", o:["mustn’t","must"], fixed:true},
+      {q:"🌸 You ___ pick the flowers.", o:["mustn’t","must"], fixed:true},
+      {q:"🥾 You ___ stay on the path.", o:["must","mustn’t"], fixed:true},
+      {q:"🔊 You ___ make a lot of noise.", o:["mustn’t","must"], fixed:true},
+      {q:"🐕 You ___ keep your dog on a lead.", o:["must","mustn’t"], fixed:true},
+      {q:"💧 You ___ save water.", o:["must","mustn’t"], fixed:true}
+    ]},
+  { type:"builder", title:"My plans: be going to", min:5,
+    tip:"Build 2–3 sentences together (or press “Random”). Then each pupil writes 3 sentences: “Next summer I am going to…”. Quick extra question: “Are people going to live on Mars in the future?”",
+    intro:"<div class='rule'>I <b>am going to</b> … · He / She <b>is going to</b> … · We / They <b>are going to</b> …</div>",
+    cols:[
+      ["Who?",["I am","We are","My family is","My best friend is","My brother is","My sister is"]],
+      ["",["going to"]],
+      ["What?",["visit my grandparents","swim in the sea","go camping","play football every day","read five books","help my family in the garden","climb a mountain","watch the stars","go to Adana"]],
+      ["When?",["next summer.","next weekend.","tomorrow.","after school."]]
+    ]},
+  { type:"mcq", title:"Revision quiz (10 questions)", min:10, mode:"quiz",
+    tip:"Diagnostic, not graded. Hand out the printed quiz sheet (same questions and letters) or pupils write 1–10 and A / B / C on paper. Show each question, give 30 seconds, then “Show answer” and ask “Hands up if you got it right” – type the number. The last screen shows the weakest themes → plan extra support before Theme 1.",
+    qs:[
+      {q:"There ___ two museums in the city.", o:["is","are","am"], a:1, tag:"Theme 5 · Neighbourhood & City"},
+      {q:"A plane is ___ than a bus.", o:["more fast","fastest","faster"], a:2, tag:"Theme 5 · Neighbourhood & City"},
+      {q:"This is ___ bike. (Ali)", o:["Ali’s","Alis","Ali"], a:0, tag:"Theme 5 · Neighbourhood & City"},
+      {q:"How ___ sugar do you want?", o:["many","a","much"], a:2, tag:"Theme 6 · Life in the World"},
+      {q:"She ___ got two cats.", o:["have","has","is"], a:1, tag:"Theme 6 · Life in the World"},
+      {q:"(at a restaurant) ___ I have a glass of water, please?", o:["Can","Am","Do"], a:0, tag:"Theme 6 · Life in the World"},
+      {q:"A cheetah ___ run very fast.", o:["is","can’t","can"], a:2, tag:"Theme 7 · Life in Nature"},
+      {q:"You ___ throw rubbish in the forest.", o:["mustn’t","must","can"], a:0, tag:"Theme 7 · Life in Nature"},
+      {q:"Jupiter is the ___ planet in our Solar System.", o:["bigger","biggest","most big"], a:1, tag:"Theme 8 · Universe & Future"},
+      {q:"Next summer I ___ going to visit my grandma.", o:["is","are","am"], a:2, tag:"Theme 8 · Universe & Future"}
+    ]}
+  ]}
+];
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k === "html") el.innerHTML = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) el.append(k.nodeType ? k : document.createTextNode(k));
+  return el;
+}
+const emo = (e, cls) => h("span", {class: "emoji" + (cls ? " " + cls : "")}, e);
+// seeded shuffle: the same question always shows its options in the same A/B/C order
+function rng(seed) { let a = 0; for (const c of seed) a = (a * 31 + c.charCodeAt(0)) | 0;
+  return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function shuffle(arr, r = Math.random) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const LETTERS = "ABCD";
+
+let state = {lesson: -1, step: 0};
+let timer = {left: 0, run: false, id: null};
+
+function go(lesson, step = 0) { location.hash = lesson < 0 ? "" : `#${LESSONS[lesson].id}/${step + 1}`; }
+function readHash() {
+  const m = location.hash.match(/^#(l\d)\/?(\d+)?/);
+  const li = m ? LESSONS.findIndex(l => l.id === m[1]) : -1;
+  state.lesson = li;
+  state.step = li < 0 ? 0 : Math.min(Math.max((+m[2] || 1) - 1, 0), LESSONS[li].steps.length - 1);
+  render();
+}
+
+function render() {
+  stopTimer();
+  const nav = $("#nav"); nav.innerHTML = "";
+  nav.append(h("button", {class: "small" + (state.lesson < 0 ? " on" : ""), onclick: () => go(-1)}, "🏠 Home"));
+  LESSONS.forEach((l, i) => nav.append(h("button", {class: "small" + (state.lesson === i ? " on" : ""), onclick: () => go(i)}, `${l.title}: ${l.sub.split(" (")[0]}`)));
+  const app = $("#app"); app.innerHTML = "";
+  if (state.lesson < 0) return renderHub(app);
+  renderLesson(app, LESSONS[state.lesson]);
+  window.scrollTo(0, 0);
+}
+
+function renderHub(app) {
+  const hub = h("div", {class: "hub"},
+    h("h1", null, "Year 6 English · Week 3"),
+    h("p", {class: "lead"}, "Revision Part 2: Year 5 Themes 5–8 · 3 lessons × 40 minutes · 6/A – 6/B"));
+  const grid = h("div", {class: "cards3"});
+  LESSONS.forEach((l, i) => {
+    const tot = l.steps.reduce((s, x) => s + x.min, 0);
+    grid.append(h("button", {class: "lcard", style: `--c:${l.color}`, onclick: () => go(i)},
+      h("h2", null, `${l.title}: ${l.sub}`), h("div", {class: "day"}, `${l.day} · ${tot} min`),
+      h("ol", null, l.steps.map(s => h("li", null, `${s.title} (${s.min}′)`)))));
+  });
+  hub.append(grid, h("div", {class: "howto", html:
+    `<b>How to use it on the board</b><ul>
+    <li>Open a lesson and go step by step with <b>Next ▶</b> (or the → arrow key). Each step has a suggested time; press ▶ on the timer to start it.</li>
+    <li><b>Teacher tip</b> (yellow) says how to run the step. <b>TR hints</b> shows short Turkish help for weaker pupils.</li>
+    <li>Everything works offline. Nothing is saved and no pupil names are needed: the number picker uses class register numbers.</li>
+    <li>The Lesson 3 revision quiz is diagnostic: pupils answer on paper, you type how many got each question right, and the last screen shows the weakest themes.</li></ul>`}));
+  app.append(hub);
+}
+
+function renderLesson(app, L) {
+  const S = L.steps[state.step];
+  const side = h("aside", {class: "steps"}, h("h3", {style: `color:${L.color}`}, `${L.title}: ${L.sub}`));
+  L.steps.forEach((s, i) => side.append(h("button", {class: i === state.step ? "on" : "", onclick: () => go(state.lesson, i)},
+    h("span", null, `${i + 1}. ${s.title}`), h("span", {class: "m"}, `${s.min}′`))));
+  side.append(h("div", {class: "total"}, `Total: ${L.steps.reduce((a, s) => a + s.min, 0)} minutes · ${L.day}`));
+
+  const tEl = h("span", {class: "t"});
+  const playBtn = h("button", {class: "small", title: "Start / pause timer"}, "▶");
+  const timerBox = h("div", {class: "timer"}, h("span", {class: "emoji"}, "⏱️"), tEl, playBtn,
+    h("button", {class: "small", title: "Reset timer", onclick: () => { stopTimer(); timer.left = S.min * 60; paint(); }}, "↺"));
+  timer.left = S.min * 60;
+  function paint() { const a = Math.abs(timer.left); tEl.textContent = (timer.left < 0 ? "+" : "") + `${Math.floor(a / 60)}:${String(a % 60).padStart(2, "0")}`; tEl.classList.toggle("over", timer.left < 0); playBtn.textContent = timer.run ? "⏸" : "▶"; }
+  playBtn.onclick = () => { if (timer.run) stopTimer(); else { timer.run = true; timer.id = setInterval(() => { timer.left--; paint(); }, 1000); } paint(); };
+  timer.paint = paint; paint();
+
+  const body = h("div", {class: "body"});
+  if (S.tip) body.append(h("details", {class: "tip", open: true}, h("summary", null, "Teacher tip"), h("div", null, S.tip)));
+  if (S.intro) body.append(h("div", {class: "intro", html: S.intro}));
+  RENDER[S.type](S, body);
+
+  const last = state.step === L.steps.length - 1;
+  const stage = h("section", {class: "stage"},
+    h("div", {class: "stagehead"},
+      h("div", null, h("div", {class: "kicker"}, `Step ${state.step + 1} of ${L.steps.length} · ${S.min} min`), h("h2", null, S.title)), timerBox),
+    body,
+    h("div", {class: "stagefoot"},
+      h("button", {disabled: state.step === 0, onclick: () => go(state.lesson, state.step - 1)}, "◀ Back"),
+      last ? h("button", {class: "primary", onclick: () => go(-1)}, "Lesson finished 🏠")
+           : h("button", {class: "primary", onclick: () => go(state.lesson, state.step + 1)}, `Next: ${L.steps[state.step + 1].title} ▶`)));
+  app.append(h("div", {class: "lesson"}, side, stage));
+}
+function stopTimer() { clearInterval(timer.id); timer.run = false; timer.paint && timer.paint(); }
+
+/* ---------- step renderers ---------- */
+const RENDER = {
+  frames(S, box) {
+    const f = h("div", {class: "frames"});
+    S.lines.forEach((l, i) => f.append(h("div", {class: "frame"}, h("div", {html: l}), S.trs && S.trs[i] ? h("div", {class: "tr"}, S.trs[i]) : null)));
+    box.append(f);
+    if (S.picker) {
+      let max = S.picker;
+      const num = h("span", {class: "num"}, "?");
+      const inp = h("input", {type: "number", min: 2, max: 60, value: max, onchange: e => max = Math.max(2, +e.target.value || 30)});
+      let used = [];
+      box.append(h("div", {class: "picker"},
+        h("button", {class: "primary", onclick: () => {
+          if (used.length >= max) used = [];
+          let n; do n = 1 + Math.floor(Math.random() * max); while (used.includes(n));
+          used.push(n); num.textContent = n;
+        }}, "🎲 Who’s next? (register no.)"), num,
+        h("span", {class: "muted"}, "Class size:"), inp));
+    }
+  },
+
+  cards(S, box) {
+    let hide = false;
+    const grid = h("div", {class: "grid"});
+    const draw = items => { grid.innerHTML = ""; items.forEach(it => {
+      const b = h("button", {class: "fc" + (hide ? " hidden" : ""), onclick: () => { if (b.classList.contains("hidden")) b.classList.remove("hidden"); else b.classList.toggle("said"); }},
+        emo(it.e), h("span", {class: "w"}, it.w), h("span", {class: "tr"}, it.tr));
+      grid.append(b); }); };
+    const hideBtn = h("button", {class: "small toggle", onclick: () => { hide = !hide; hideBtn.classList.toggle("on", hide); hideBtn.textContent = hide ? "Show words" : "Hide words";
+      grid.querySelectorAll(".fc").forEach(c => c.classList.toggle("hidden", hide)); }}, "Hide words");
+    box.append(h("div", {class: "tools"}, hideBtn, h("button", {class: "small", onclick: () => draw(shuffle(S.items))}, "🔀 Shuffle"),
+      h("span", {class: "muted", style: "font-size:.8rem"}, "Tap a hidden card to show its word. Tap again to mark it green.")), grid);
+    draw(S.items);
+  },
+
+  match(S, box) {
+    const wrap = h("div");
+    box.append(wrap);
+    function round() {
+      wrap.innerHTML = "";
+      const set = shuffle(S.items).slice(0, S.per), msg = h("div", {class: "big", style: "min-height:1.6em;margin-top:.8rem"});
+      let pickE = null, pickW = null, done = 0;
+      const colE = h("div", {class: "col"}), colW = h("div", {class: "col"});
+      const check = () => {
+        if (!pickE || !pickW) return;
+        const a = pickE, b = pickW; pickE = pickW = null;
+        if (a.dataset.w === b.dataset.w) { [a, b].forEach(x => { x.classList.remove("sel"); x.classList.add("done"); x.disabled = true; });
+          if (++done === set.length) msg.textContent = "🎉 Well done! All matched."; }
+        else { [a, b].forEach(x => { x.classList.remove("sel"); x.classList.add("wrong"); setTimeout(() => x.classList.remove("wrong"), 450); }); }
+      };
+      shuffle(set).forEach(it => { const b = h("button", {"data-w": it.w, onclick: () => { if (pickE) pickE.classList.remove("sel"); pickE = b; b.classList.add("sel"); check(); }}, emo(it.e)); colE.append(b); });
+      shuffle(set).forEach(it => { const b = h("button", {"data-w": it.w, onclick: () => { if (pickW) pickW.classList.remove("sel"); pickW = b; b.classList.add("sel"); check(); }}, it.w); colW.append(b); });
+      wrap.append(h("div", {class: "tools"}, h("button", {class: "small", onclick: round}, "🔄 New round")), h("div", {class: "match"}, colE, colW), msg);
+    }
+    round();
+  },
+
+  mcq(S, box) {
+    const quiz = S.mode === "quiz";
+    const qs = S.qs.map((q, i) => ({...q, opts: (q.fixed || q.a != null ? x => x : x => shuffle(x, rng(S.title + i)))(q.o.map((t, k) => ({t, ok: k === (q.a ?? 0)})))}));
+    const res = qs.map(() => null);      // practice: true/false · quiz: number of pupils right
+    let i = 0, classSize = 20;
+    if (S.scene) {
+      const sc = h("div", {class: "scene" + (S.scene.cls ? " " + S.scene.cls : "")});
+      S.scene.cells.forEach(([e, l]) => sc.append(h("div", {class: "cell"}, emo(e), l ? h("small", null, l) : null)));
+      box.append(h("div", {class: "muted", style: "font-size:.85rem"}, S.scene.title), sc);
+    }
+    const wrap = h("div"); box.append(wrap);
+    const qText = (q, fill) => { const parts = q.q.split("___"); const d = h("div", {class: "q"}, parts[0]);
+      if (parts.length > 1) { d.append(h("span", {class: "blank" + (fill ? " filled" : "")}, fill || " "), parts[1]); } return d; };
+
+    function draw() {
+      wrap.innerHTML = "";
+      if (i >= qs.length) return summary();
+      const q = qs[i], right = q.opts.find(o => o.ok).t;
+      const dots = h("div", {class: "qnum"}, `Question ${i + 1} / ${qs.length}`, " ",
+        qs.map((_, k) => h("span", {class: "dot" + (k === i ? " cur" : "") + (!quiz && res[k] === true ? " ok" : "") + (!quiz && res[k] === false ? " bad" : "") + (quiz && res[k] != null ? " ok" : "")})));
+      let qd = qText(q);
+      const opts = h("div", {class: "opts"}), after = h("div");
+      const reveal = picked => {
+        const nq = qText(q, q.q.includes("___") ? right : null); qd.replaceWith(nq); qd = nq;
+        opts.querySelectorAll("button").forEach(b => { b.disabled = true; if (b.dataset.ok === "1") b.classList.add("right"); });
+        if (picked && picked.dataset.ok !== "1") picked.classList.add("wrong");
+      };
+      let commit = null;   // quiz: store the hands-up count before moving on
+      const next = h("button", {class: "primary", onclick: () => { if (commit) commit(); i++; draw(); }}, i === qs.length - 1 ? "See results ▶" : "Next question ▶");
+      q.opts.forEach((o, k) => opts.append(h("button", {"data-ok": o.ok ? "1" : "0", onclick: e => {
+        if (quiz) return;
+        const b = e.currentTarget; res[i] = o.ok; reveal(b);
+        after.append(h("div", {class: "why" + (o.ok ? "" : " bad")}, o.ok ? "✅ Correct! " : `❌ Not quite. The answer is “${right}”. `, q.why || ""),
+          h("div", {class: "row", style: "margin-top:.8rem"}, next));
+      }}, h("span", {class: "L"}, LETTERS[k]), o.t)));
+      if (quiz) {
+        const n = h("input", {type: "number", min: 0, max: 60, placeholder: "0", value: res[i] ?? ""});
+        const show = h("button", {class: "primary", onclick: () => { reveal(); show.remove();
+          after.append(h("div", {class: "row"}, h("span", null, "Hands up! How many pupils got it right?"), n, next)); n.focus(); }}, "👀 Show answer");
+        commit = () => res[i] = n.value === "" ? 0 : Math.max(0, +n.value);
+        after.append(show);
+      }
+      wrap.append(...[dots, qd, q.tr && h("div", {class: "tr"}, q.tr), opts, after].filter(Boolean));
+    }
+
+    function summary() {
+      if (!quiz) {
+        const sc = res.filter(x => x).length;
+        wrap.append(h("div", {class: "score"}, `${sc} / ${qs.length} ${sc === qs.length ? "🌟" : sc >= qs.length * .7 ? "👏" : "💪"}`),
+          h("div", {class: "row"}, h("button", {onclick: () => { res.fill(null); i = 0; draw(); }}, "🔁 Try again")));
+        return;
+      }
+      const cs = h("input", {type: "number", min: 1, max: 60, value: classSize});
+      const out = h("div");
+      const table = () => {
+        classSize = Math.max(1, +cs.value || 20);
+        const tags = [...new Set(qs.map(q => q.tag))];
+        const rows = tags.map(t => { const ks = qs.map((q, k) => q.tag === t ? k : -1).filter(k => k >= 0);
+          const pct = Math.round(100 * ks.reduce((a, k) => a + (res[k] || 0), 0) / (ks.length * classSize)); return {t, ks, pct}; });
+        const min = Math.min(...rows.map(r => r.pct));
+        out.innerHTML = "";
+        out.append(h("table", {class: "res"}, h("tr", null, h("th", null, "Theme"), h("th", null, "Questions"), h("th", null, "Correct")),
+          rows.map(r => h("tr", {class: r.pct === min && r.pct < 80 ? "weak" : ""}, h("td", null, r.t), h("td", null, r.ks.map(k => k + 1).join(", ")), h("td", null, `${Math.min(r.pct, 100)} %`)))),
+          h("table", {class: "res"}, h("tr", null, h("th", null, "Q"), qs.map((_, k) => h("th", null, k + 1))),
+            h("tr", null, h("td", null, "Right"), qs.map((_, k) => h("td", null, res[k] ?? "–")))),
+          h("p", {class: "muted", style: "font-size:.85rem"}, "Red row = weakest theme. Revise it with a short warm-up in Theme 1 lessons."));
+      };
+      cs.oninput = table;
+      wrap.append(h("h3", null, "📊 Results"), h("div", {class: "row"}, h("span", null, "Pupils in class today:"), cs),
+        h("div", {class: "rule", style: "margin:.8rem 0"}, h("b", null, "Answer key: "), qs.map((q, k) => `${k + 1}-${LETTERS[q.opts.findIndex(o => o.ok)]}`).join("  ·  ")),
+        out, h("div", {class: "row", style: "margin-top:.8rem"}, h("button", {onclick: () => { res.fill(null); i = 0; draw(); }}, "🔁 Start again")));
+      table();
+    }
+    draw();
+  },
+
+  sort(S, box) {
+    let sel = null, left = S.items.length, wrong = 0;
+    const pool = h("div", {class: "pool"}), bins = h("div", {class: "bins"}), msg = h("div", {class: "big", style: "min-height:1.6em;margin-top:.8rem"});
+    shuffle(S.items).forEach(([e, w, bin]) => {
+      const b = h("button", {onclick: () => { if (sel) sel.classList.remove("sel"); sel = b; b.classList.add("sel"); }}, emo(e), w);
+      b.dataset.bin = bin; b.dataset.e = e; b.dataset.w = w; pool.append(b);
+    });
+    S.bins.forEach(bn => {
+      const inside = h("div", {class: "in"});
+      const bb = h("button", {class: "bin", onclick: () => {
+        if (!sel) { bb.classList.add("shake"); setTimeout(() => bb.classList.remove("shake"), 400); return; }
+        if (sel.dataset.bin === bn.id) { inside.append(h("span", null, emo(sel.dataset.e), " ", sel.dataset.w)); sel.remove(); sel = null;
+          if (--left === 0) msg.textContent = `🎉 All sorted! Mistakes: ${wrong}`; }
+        else { wrong++; const s = sel; s.classList.add("wrong"); setTimeout(() => s.classList.remove("wrong"), 450); }
+      }}, h("div", {class: "bh"}, emo(bn.e), bn.label), bn.sub ? h("div", {class: "bs"}, bn.sub) : null, bn.tr ? h("div", {class: "tr"}, bn.tr) : null, inside);
+      bins.append(bb);
+    });
+    box.append(h("p", {class: "muted", style: "margin:.2rem 0 .6rem;font-size:.85rem"}, "Tap a card, then tap the right box."), pool, bins, msg);
+  },
+
+  guess(S, box) {
+    const list = shuffle(S.animals); let a = 0, shown = 1, open = false;
+    const pts = [0, 0];
+    const stage = h("div"); box.append(stage);
+    function draw() {
+      stage.innerHTML = "";
+      const [e, name, clues] = list[a];
+      const clueBox = h("div", {class: "clues"}, h("div", {class: "muted"}, `Animal ${a + 1} / ${list.length} · “What can it do? Where does it live?”`),
+        clues.map((c, k) => h("div", {class: "clue" + (k < shown || open ? "" : " hid")}, `${k + 1}. ${c}`)),
+        h("div", {class: "row", style: "margin-top:.4rem"},
+          h("button", {disabled: shown >= 3 || open, onclick: () => { shown++; draw(); }}, "💡 Next clue"),
+          h("button", {class: "primary", disabled: open, onclick: () => { open = true; draw(); }}, "Show answer"),
+          h("button", {disabled: a >= list.length - 1, onclick: () => { a++; shown = 1; open = false; draw(); }}, "Next animal ▶")));
+      const worth = open ? 0 : 4 - shown;
+      const teams = h("div", {class: "teams"},
+        h("div", {class: "mystery"}, emo(open ? e : "❓")), h("div", {class: "answer"}, open ? `It’s a${/^[aeiou]/.test(name) ? "n" : ""} ${name}!` : ""),
+        ["Team A", "Team B"].map((t, k) => h("div", {class: "team"}, h("div", null, t), h("div", {class: "pts"}, pts[k]),
+          h("div", {class: "row", style: "justify-content:center"},
+            h("button", {class: "small", disabled: open, onclick: () => { pts[k] += worth; open = true; draw(); }}, `✅ +${worth || 1}`),
+            h("button", {class: "small", onclick: () => { pts[k] = Math.max(0, pts[k] - 1); draw(); }}, "−1")))));
+      stage.append(h("div", {class: "guess"}, clueBox, teams));
+    }
+    draw();
+  },
+
+  builder(S, box) {
+    const pick = S.cols.map(c => c[1].length === 1 ? 0 : -1);
+    const out = h("div", {class: "sentence"});
+    const grid = h("div", {class: "bcols"});
+    const paint = () => { out.textContent = pick.every(p => p >= 0) ? S.cols.map((c, k) => c[1][pick[k]]).join(" ") : S.cols.map((c, k) => pick[k] >= 0 ? c[1][pick[k]] : "…").join(" ");
+      grid.querySelectorAll("button").forEach(b => b.classList.toggle("sel", pick[+b.dataset.c] === +b.dataset.i)); };
+    S.cols.forEach(([head, opts], c) => grid.append(h("div", {class: "bcol"}, h("h4", null, head || " "),
+      opts.map((o, i) => h("button", {"data-c": c, "data-i": i, onclick: () => { pick[c] = i; paint(); }}, o)))));
+    box.append(h("div", {class: "tools"}, h("button", {class: "small", onclick: () => { S.cols.forEach((c, k) => pick[k] = Math.floor(Math.random() * c[1].length)); paint(); }}, "🎲 Random"),
+      h("button", {class: "small", onclick: () => { S.cols.forEach((c, k) => pick[k] = c[1].length === 1 ? 0 : -1); paint(); }}, "Clear")), out, grid,
+      h("div", {class: "frame", style: "margin-top:1rem;font-size:1.3rem"}, "✏️ Now write 3 sentences in your notebook: Next summer I am going to …"));
+    paint();
+  },
+
+  menu(S, box) {
+    const order = [];
+    const card = h("div", {class: "menucard"}, h("h3", null, "☕ " + S.name), h("div", {class: "muted", style: "text-align:center;font-size:.8rem"}, "Tap food to order · prices in Turkish lira (₺)"));
+    S.sections.forEach(([sec, items]) => { card.append(h("h4", null, sec));
+      items.forEach(([e, n, p, phrase]) => card.append(h("button", {class: "mi", onclick: () => { order.push({e, n, p, phrase}); paint(); }}, emo(e), n, h("span", {class: "p"}, `${p} ₺`)))); });
+    const talk = h("div", {class: "order"}), tot = h("div", {class: "total"});
+    const say = (who, txt) => talk.append(h("div", {class: "say" + (who === "Waiter" ? " waiter" : "")}, h("b", null, who), txt));
+    const sum = () => order.reduce((a, o) => a + o.p, 0);
+    function paint() {
+      talk.innerHTML = "";
+      say("Waiter", "Hello! Welcome to " + S.name + ". What would you like?");
+      order.forEach(o => { say("Customer", `Can I have ${o.phrase}, please?`); say("Waiter", "Of course. Here you are."); });
+      tot.textContent = order.length ? `Bill: ${sum()} ₺` : "";
+    }
+    const pay = h("div", {class: "row", style: "margin-top:.6rem"},
+      h("button", {class: "small", onclick: () => { if (!order.length) return; say("Customer", "Can I have the bill, please? Can I pay in cash?"); say("Waiter", `Yes, you can. That’s ${sum()} lira, please.`); }}, "💵 Pay in cash"),
+      h("button", {class: "small", onclick: () => { if (!order.length) return; say("Customer", "Can I pay by card?"); say("Waiter", "Sorry, you can’t. Our card machine isn’t working today. 😅"); }}, "💳 Pay by card"),
+      h("button", {class: "small", onclick: () => { order.length = 0; paint(); }}, "🆕 New customer"));
+    const script = h("details", {class: "box script", style: "margin-top:.8rem"}, h("summary", null, h("b", null, "📜 Model dialogue")),
+      h("div", {html: `<p><b>Waiter:</b> Hello! Welcome to ${S.name}. Here is the menu.</p><p><b>Customer:</b> Thank you.</p>
+        <p><b>Waiter:</b> What would you like?</p><p><b>Customer:</b> Can I have a bowl of lentil soup, please?</p>
+        <p><b>Waiter:</b> Anything to drink?</p><p><b>Customer:</b> Yes. Can I have a glass of ayran, please?</p>
+        <p><b>Waiter:</b> Here you are. Enjoy your meal!</p><p><b>Customer:</b> Can I have the bill, please? Can I pay in cash?</p>
+        <p><b>Waiter:</b> Yes, of course. That’s 120 lira, please.</p><p><b>Customer:</b> Here you are. Thank you. Goodbye!</p>`}));
+    const checks = ["Food words", "“Can I…?”", "Pronunciation"];
+    const tbl = h("table", {class: "check"}, h("tr", null, h("th", null, "Pair"), checks.map(c => h("th", null, c))));
+    for (let p = 1; p <= S.pairs; p++) tbl.append(h("tr", null, h("td", null, p), checks.map(() => h("td", null, h("button", {onclick: e => { const b = e.currentTarget; b.classList.toggle("on"); b.textContent = b.classList.contains("on") ? "✓" : ""; }})))));
+    const cl = h("details", {class: "box", style: "margin-top:.8rem"}, h("summary", null, h("b", null, "✅ Teacher checklist (role-play)")), tbl,
+      h("p", {class: "muted", style: "font-size:.75rem"}, "Not saved: copy the ticks to your notes before closing."));
+    box.append(h("div", {class: "menu"}, h("div", null, card), h("div", null, h("h3", {style: "margin-top:0"}, "🗣️ Conversation"), talk, tot, pay, script, cl)));
+    paint();
+  }
+};
+
+/* ---------- global controls ---------- */
+$("#brand").onclick = () => go(-1);
+$("#trBtn").onclick = e => { document.body.classList.toggle("show-tr"); e.currentTarget.classList.toggle("on"); };
+$("#fsBtn").onclick = () => { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); };
+document.addEventListener("keydown", e => {
+  if (state.lesson < 0 || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  const n = LESSONS[state.lesson].steps.length;
+  if (e.key === "ArrowRight" && state.step < n - 1) go(state.lesson, state.step + 1);
+  if (e.key === "ArrowLeft" && state.step > 0) go(state.lesson, state.step - 1);
+});
+window.addEventListener("hashchange", readHash);
+readHash();
+</script>
+</body>
+</html>
