@@ -11,7 +11,7 @@ PUBLIC = "--public" in sys.argv
 TOOLS = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(TOOLS)
 DESKTOP = os.path.join(os.path.expanduser("~"), "Desktop")
-CREDIT = "Prepared by Ogün Aydın · CC BY 4.0: free to use, share and adapt with credit · codeberg.org/helinesca/ingilizce-6-materyaller"
+CREDIT = "Prepared by Ogün Aydın · CC BY 4.0: free to use, share and adapt with credit · github.com/ogunaydin89/ingilizce-6-materyaller"
 
 
 def out_path(folder, public_name, school_name):
