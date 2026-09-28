@@ -9,7 +9,7 @@ Lesson plans and classroom materials for **Year 6 English (Level A2.2)** under t
 | Folder | Contents |
 |---|---|
 | `Grade-6_Annual-Plan_2026-2027_English` | One-page annual plan: all 37 weeks, themes, outcome codes, performance tasks, special days |
-| `Grade-6_Week-03_2026-09-28--2026-10-02_English_Revision-Part-2` | Week 3 lesson plan (revision of Year 5 Themes 5–8) |
+| `Grade-6_Week-03_2026-09-28--2026-10-02_English_Revision-Part-2` | Week 3 lesson plan (revision of Year 5 Themes 5–8) + interactive board material for all 3 lessons (`…Interactive-Lessons.html`: open in any browser, works offline) |
 
 New weeks are added as they are taught.
 
