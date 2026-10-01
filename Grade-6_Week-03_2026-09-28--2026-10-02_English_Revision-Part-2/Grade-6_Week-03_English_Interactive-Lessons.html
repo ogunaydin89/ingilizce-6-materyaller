@@ -61,7 +61,9 @@ footer a{color:inherit}
 .stagehead{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:.6rem;margin-bottom:1rem}
 .stagehead h2{margin:0;font-size:1.6rem}
 .stagehead .kicker{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.stagehead .dice-btn{margin-left:auto}
+.stagehead .dice-size{margin-left:auto}
+.dice-size{display:flex;align-items:center;gap:.35rem;font-size:.8rem;color:var(--muted)}
+.dice-size input{width:4.2em;font-size:1.2rem;font-weight:700;text-align:center}
 .timer{display:flex;align-items:center;gap:.4rem}
 .timer .t{font-variant-numeric:tabular-nums;font-size:1.5rem;font-weight:700;min-width:4.2ch;text-align:right}
 .timer .t.over{color:var(--bad)}
@@ -522,7 +524,7 @@ function renderHub(app) {
     `<b>How to use it on the board</b><ul>
     <li>Open a lesson and go step by step with <b>Next ▶</b> (or the → arrow key). Each step has a suggested time; press ▶ on the timer to start it.</li>
     <li><b>Teacher tip</b> (yellow) says how to run the step. <b>TR hints</b> shows short Turkish help for weaker pupils.</li>
-    <li><b>🎲 Who’s next?</b> is on every step (or press <b>D</b>): it rolls a class register number for the pupil who comes to the board. Nobody is picked twice until everyone has had a turn; “Roll again” skips an absent pupil. Set the class size once (it is remembered on this computer) and press “New class / start again” when the other class comes in.</li>
+    <li><b>🎲 Who’s next?</b> is on every step (or press <b>D</b>): it rolls a class register number for the pupil who comes to the board. Nobody is picked twice until everyone has had a turn; “Roll again” skips an absent pupil. Type the number of pupils in the <b>👥 Pupils</b> box at the top of any page (6/A and 6/B have different numbers): changing it starts a new round for the new class. The number is remembered on this computer.</li>
     <li>Everything works offline. No pupil names are needed or saved.</li>
     <li>The Lesson 3 revision quiz is diagnostic: pupils answer on paper, you type how many got each question right, and the last screen shows the weakest themes.</li></ul>`}));
   app.append(hub);
@@ -553,6 +555,8 @@ function renderLesson(app, L) {
   const stage = h("section", {class: "stage"},
     h("div", {class: "stagehead"},
       h("div", null, h("div", {class: "kicker"}, `Step ${state.step + 1} of ${L.steps.length} · ${S.min} min`), h("h2", null, S.title)),
+      h("label", {class: "dice-size", title: "Number of pupils in this class (the dice rolls 1 to this number)"}, "👥 Pupils:",
+        h("input", {type: "number", min: 2, max: 60, value: DICE.max, onchange: e => { setDiceMax(e.target.value); e.target.value = DICE.max; }})),
       h("button", {class: "primary dice-btn", title: "Pick a pupil to come to the board (key: D)", onclick: openDice}, "🎲 Who’s next?"), timerBox),
     body,
     h("div", {class: "stagefoot"},
@@ -782,6 +786,10 @@ const RENDER = {
    Only the class size is remembered on this computer – no names, no pupil data. */
 const DICE = {max: 30, used: [], rolling: false, ov: null};
 try { const m = +localStorage.getItem("g6-dice-max"); if (m >= 2 && m <= 60) DICE.max = m; } catch (e) {}
+function setDiceMax(v) {
+  DICE.max = Math.min(60, Math.max(2, Math.round(+v) || 30)); DICE.used = [];
+  try { localStorage.setItem("g6-dice-max", DICE.max); } catch (e) {}
+}
 function diceLeft() { return DICE.max - DICE.used.length; }
 function diceNext() {
   if (diceLeft() <= 0) DICE.used = [];
@@ -795,8 +803,7 @@ function openDice() {
     const size = h("input", {type: "number", min: 2, max: 60, value: DICE.max});
     const again = h("button", {class: "primary", onclick: () => roll()}, "🎲 Roll again");
     const close = () => { if (!DICE.rolling) { DICE.ov.remove(); DICE.ov = null; } };
-    size.onchange = () => { DICE.max = Math.min(60, Math.max(2, +size.value || 30)); size.value = DICE.max;
-      DICE.used = DICE.used.filter(n => n <= DICE.max); try { localStorage.setItem("g6-dice-max", DICE.max); } catch (e) {} paintLeft(); };
+    size.onchange = () => { setDiceMax(size.value); size.value = DICE.max; const hd = $(".dice-size input"); if (hd) hd.value = DICE.max; paintLeft(); };
     const paintLeft = () => left.textContent = diceLeft() > 0 ? `${diceLeft()} pupils still to come` : "Everyone has had a turn – the next roll starts a new round";
     function roll() {
       if (DICE.rolling) return;
@@ -815,7 +822,7 @@ function openDice() {
     DICE.ov = h("div", {class: "dice-ov", onclick: e => { if (e.target === DICE.ov) close(); }},
       h("div", {class: "dice-card"}, cube, num, msg,
         h("div", {class: "row"}, again, h("button", {onclick: close}, "✓ OK")),
-        h("div", {class: "dice-set"}, left, h("span", null, "· Class size:"), size,
+        h("div", {class: "dice-set"}, left, h("span", null, "· Pupils:"), size,
           h("button", {class: "small", onclick: () => { DICE.used = []; paintLeft(); }}, "New class / start again"))));
     document.body.append(DICE.ov);
     paintLeft();
