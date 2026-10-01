@@ -61,7 +61,8 @@ footer a{color:inherit}
 .stagehead{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:.6rem;margin-bottom:1rem}
 .stagehead h2{margin:0;font-size:1.6rem}
 .stagehead .kicker{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.timer{margin-left:auto;display:flex;align-items:center;gap:.4rem}
+.stagehead .dice-btn{margin-left:auto}
+.timer{display:flex;align-items:center;gap:.4rem}
 .timer .t{font-variant-numeric:tabular-nums;font-size:1.5rem;font-weight:700;min-width:4.2ch;text-align:right}
 .timer .t.over{color:var(--bad)}
 .body{flex:1}
@@ -77,8 +78,21 @@ body.show-tr span.tr{display:inline}
 .frames{display:flex;flex-direction:column;gap:.7rem}
 .frame{font-size:1.7rem;background:var(--accent-soft);border-radius:var(--r);padding:.5rem 1rem}
 .frame .blank{display:inline-block;min-width:5ch;border-bottom:3px solid var(--accent);color:var(--accent)}
-.picker{margin-top:1.2rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
-.picker .num{font-size:3rem;font-weight:800;min-width:2.5ch;text-align:center;color:var(--accent)}
+.picker{margin-top:1.2rem}
+.picker button{font-size:1.4rem;min-height:70px;padding:.4em 1.4em}
+/* dice: who comes to the board (register numbers) */
+.dice-btn{font-size:1.1rem}
+.dice-ov{position:fixed;inset:0;background:rgba(20,25,40,.6);display:grid;place-items:center;z-index:50;padding:16px}
+.dice-card{background:var(--panel);border-radius:24px;padding:1.2rem 2rem 1.4rem;text-align:center;width:min(560px,100%);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.dice-cube{font-size:3.2rem;display:inline-block}
+.dice-cube.spin{animation:dspin .35s linear infinite}
+@keyframes dspin{to{transform:rotate(360deg)}}
+.dice-num{font-size:min(11rem,32vw);font-weight:900;color:var(--accent);line-height:1.05;font-variant-numeric:tabular-nums;margin:.2rem 0}
+.dice-num.rolling{color:var(--muted)}
+.dice-msg{font-size:1.5rem;font-weight:700;min-height:1.5em}
+.dice-card .row{justify-content:center;margin-top:1rem}
+.dice-set{margin-top:1rem;padding-top:.7rem;border-top:2px solid var(--line);font-size:.85rem;color:var(--muted);display:flex;gap:.6rem;justify-content:center;align-items:center;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.dice-cube.spin{animation:none}}
 .row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
 .muted{color:var(--muted)}
 .big{font-size:1.4em}
@@ -239,7 +253,7 @@ const LESSONS = [
 { id:"l1", color:"var(--l1)", title:"Lesson 1", sub:"Neighbourhood & City", day:"Thursday 01.10 · 6/A 7th lesson · 6/B 5th lesson",
   steps:[
   { type:"frames", title:"Warm-up: Hello chain", min:5,
-    tip:"You are a new teacher: model it first. Then the chain: each pupil says the frames and points to the next pupil. Use the number picker with register numbers if the chain gets stuck.",
+    tip:"You are a new teacher: model it first. Then the chain: each pupil says the frames and points to the next pupil. Use 🎲 Who’s next? (register numbers) if the chain gets stuck.",
     lines:["Hello! My name is <span class='blank'>&nbsp;</span>.", "I live in <span class='blank'>&nbsp;</span>.", "I am <span class='blank'>&nbsp;</span> years old.", "Nice to meet you!"],
     trs:["Merhaba! Benim adım …", "… yaşıyorum.", "… yaşındayım.", "Tanıştığıma memnun oldum!"],
     picker:30 },
@@ -508,7 +522,8 @@ function renderHub(app) {
     `<b>How to use it on the board</b><ul>
     <li>Open a lesson and go step by step with <b>Next ▶</b> (or the → arrow key). Each step has a suggested time; press ▶ on the timer to start it.</li>
     <li><b>Teacher tip</b> (yellow) says how to run the step. <b>TR hints</b> shows short Turkish help for weaker pupils.</li>
-    <li>Everything works offline. Nothing is saved and no pupil names are needed: the number picker uses class register numbers.</li>
+    <li><b>🎲 Who’s next?</b> is on every step (or press <b>D</b>): it rolls a class register number for the pupil who comes to the board. Nobody is picked twice until everyone has had a turn; “Roll again” skips an absent pupil. Set the class size once (it is remembered on this computer) and press “New class / start again” when the other class comes in.</li>
+    <li>Everything works offline. No pupil names are needed or saved.</li>
     <li>The Lesson 3 revision quiz is diagnostic: pupils answer on paper, you type how many got each question right, and the last screen shows the weakest themes.</li></ul>`}));
   app.append(hub);
 }
@@ -537,7 +552,8 @@ function renderLesson(app, L) {
   const last = state.step === L.steps.length - 1;
   const stage = h("section", {class: "stage"},
     h("div", {class: "stagehead"},
-      h("div", null, h("div", {class: "kicker"}, `Step ${state.step + 1} of ${L.steps.length} · ${S.min} min`), h("h2", null, S.title)), timerBox),
+      h("div", null, h("div", {class: "kicker"}, `Step ${state.step + 1} of ${L.steps.length} · ${S.min} min`), h("h2", null, S.title)),
+      h("button", {class: "primary dice-btn", title: "Pick a pupil to come to the board (key: D)", onclick: openDice}, "🎲 Who’s next?"), timerBox),
     body,
     h("div", {class: "stagefoot"},
       h("button", {disabled: state.step === 0, onclick: () => go(state.lesson, state.step - 1)}, "◀ Back"),
@@ -553,19 +569,7 @@ const RENDER = {
     const f = h("div", {class: "frames"});
     S.lines.forEach((l, i) => f.append(h("div", {class: "frame"}, h("div", {html: l}), S.trs && S.trs[i] ? h("div", {class: "tr"}, S.trs[i]) : null)));
     box.append(f);
-    if (S.picker) {
-      let max = S.picker;
-      const num = h("span", {class: "num"}, "?");
-      const inp = h("input", {type: "number", min: 2, max: 60, value: max, onchange: e => max = Math.max(2, +e.target.value || 30)});
-      let used = [];
-      box.append(h("div", {class: "picker"},
-        h("button", {class: "primary", onclick: () => {
-          if (used.length >= max) used = [];
-          let n; do n = 1 + Math.floor(Math.random() * max); while (used.includes(n));
-          used.push(n); num.textContent = n;
-        }}, "🎲 Who’s next? (register no.)"), num,
-        h("span", {class: "muted"}, "Class size:"), inp));
-    }
+    if (S.picker) box.append(h("div", {class: "picker"}, h("button", {class: "primary", onclick: openDice}, "🎲 Who’s next? (register no.)")));
   },
 
   cards(S, box) {
@@ -773,11 +777,61 @@ const RENDER = {
   }
 };
 
+/* ---------- dice: who comes to the board? ----------
+   Register numbers 1…class size. Nobody is picked twice until everyone has had a turn (shared by all steps).
+   Only the class size is remembered on this computer – no names, no pupil data. */
+const DICE = {max: 30, used: [], rolling: false, ov: null};
+try { const m = +localStorage.getItem("g6-dice-max"); if (m >= 2 && m <= 60) DICE.max = m; } catch (e) {}
+function diceLeft() { return DICE.max - DICE.used.length; }
+function diceNext() {
+  if (diceLeft() <= 0) DICE.used = [];
+  let n; do n = 1 + Math.floor(Math.random() * DICE.max); while (DICE.used.includes(n));
+  DICE.used.push(n); return n;
+}
+function openDice() {
+  if (!DICE.ov) {
+    const num = h("div", {class: "dice-num"}, "?"), cube = h("span", {class: "dice-cube emoji"}, "🎲");
+    const msg = h("div", {class: "dice-msg"}), left = h("span");
+    const size = h("input", {type: "number", min: 2, max: 60, value: DICE.max});
+    const again = h("button", {class: "primary", onclick: () => roll()}, "🎲 Roll again");
+    const close = () => { if (!DICE.rolling) { DICE.ov.remove(); DICE.ov = null; } };
+    size.onchange = () => { DICE.max = Math.min(60, Math.max(2, +size.value || 30)); size.value = DICE.max;
+      DICE.used = DICE.used.filter(n => n <= DICE.max); try { localStorage.setItem("g6-dice-max", DICE.max); } catch (e) {} paintLeft(); };
+    const paintLeft = () => left.textContent = diceLeft() > 0 ? `${diceLeft()} pupils still to come` : "Everyone has had a turn – the next roll starts a new round";
+    function roll() {
+      if (DICE.rolling) return;
+      DICE.rolling = true; again.disabled = true; msg.textContent = ""; cube.classList.add("spin"); num.classList.add("rolling");
+      const final = diceNext(), quick = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let t = 0;
+      const id = setInterval(() => {
+        num.textContent = 1 + Math.floor(Math.random() * DICE.max);
+        if ((t += 70) >= (quick ? 0 : 1100)) {
+          clearInterval(id); num.textContent = final; num.classList.remove("rolling"); cube.classList.remove("spin");
+          msg.textContent = `Number ${final}, come to the board! 🙋`; DICE.rolling = false; again.disabled = false; paintLeft();
+        }
+      }, 70);
+    }
+    DICE.roll = roll;
+    DICE.ov = h("div", {class: "dice-ov", onclick: e => { if (e.target === DICE.ov) close(); }},
+      h("div", {class: "dice-card"}, cube, num, msg,
+        h("div", {class: "row"}, again, h("button", {onclick: close}, "✓ OK")),
+        h("div", {class: "dice-set"}, left, h("span", null, "· Class size:"), size,
+          h("button", {class: "small", onclick: () => { DICE.used = []; paintLeft(); }}, "New class / start again"))));
+    document.body.append(DICE.ov);
+    paintLeft();
+  }
+  DICE.roll();
+}
+
 /* ---------- global controls ---------- */
 $("#brand").onclick = () => go(-1);
 $("#trBtn").onclick = e => { document.body.classList.toggle("show-tr"); e.currentTarget.classList.toggle("on"); };
 $("#fsBtn").onclick = () => { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); };
 document.addEventListener("keydown", e => {
+  if (/INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  if (e.key === "Escape" && DICE.ov && !DICE.rolling) { DICE.ov.remove(); DICE.ov = null; return; }
+  if ((e.key === "d" || e.key === "D") && state.lesson >= 0) { openDice(); return; }
+  if (DICE.ov) return;
   if (state.lesson < 0 || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
   const n = LESSONS[state.lesson].steps.length;
   if (e.key === "ArrowRight" && state.step < n - 1) go(state.lesson, state.step + 1);
